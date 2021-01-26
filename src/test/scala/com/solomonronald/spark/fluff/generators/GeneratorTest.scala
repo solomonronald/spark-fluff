@@ -1,5 +1,7 @@
-package com.solomonronald.spark.fluff
+package com.solomonronald.spark.fluff.generators
 
+import com.solomonronald.spark.fluff.SharedSparkContext
+import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.{ConstFluff, FluffType}
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._

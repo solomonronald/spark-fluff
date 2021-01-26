@@ -2,6 +2,15 @@ package com.solomonronald.spark.fluff.types
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{from_unixtime, lit, unix_timestamp}
 
+/**
+ * [[FluffType]] Function to pick date at random from a start and end date provided in format.
+ *
+ * See [[java.text.SimpleDateFormat]] for valid date and time format patterns
+ *
+ * @param startDateStr Starting date. Inclusive
+ * @param endDateStr End date. Exclusive
+ * @param format Valid SimpleDateFormat string
+ */
 class DateFluff(startDateStr: String, endDateStr: String, format: String) extends FluffType with Serializable {
   private val serialVersionUID = 3192225079626485872L
   override val needsRandomIid: Boolean = true
@@ -20,7 +29,13 @@ class DateFluff(startDateStr: String, endDateStr: String, format: String) extend
 object DateFluff extends FluffObjectType{
   val NAME_ID: String = "date"
 
+  /**
+   * Parser for date function expression
+   * @param expr date function expr
+   * @return
+   */
   def parse(expr: String): DateFluff = {
+    // Get date parameters from expr string "date(...)"
     val input: Array[String] = expr.substring(5, expr.length - 1)
       .split(",")
       .map(s => s.trim)

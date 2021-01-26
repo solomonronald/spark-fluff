@@ -1,6 +1,7 @@
-package com.solomonronald.spark.fluff
+package com.solomonronald.spark.fluff.ops
 
 import com.solomonronald.spark.fluff.types.ConstFluff
+import com.solomonronald.spark.fluff.{Fluff, SharedSparkContext}
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
 import org.junit._

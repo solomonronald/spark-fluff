@@ -1,6 +1,7 @@
 package com.solomonronald.spark.fluff
 
 import com.solomonronald.spark.fluff.TestConstants._
+import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.ConstFluff
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._

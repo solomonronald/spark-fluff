@@ -2,6 +2,9 @@ package com.solomonronald.spark.fluff.types
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.expr
 
+/**
+ *  [[FluffType]] Function to show a randomly generated UUID.
+ */
 class UuidFluff extends FluffType with Serializable {
   private val serialVersionUID = 6195964559328799284L
   override val needsRandomIid: Boolean = false

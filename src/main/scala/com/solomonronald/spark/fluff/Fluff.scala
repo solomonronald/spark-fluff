@@ -1,6 +1,8 @@
 package com.solomonronald.spark.fluff
 
-import com.solomonronald.spark.fluff.FluffyConfigReader._
+import com.solomonronald.spark.fluff.generators.Generator
+import com.solomonronald.spark.fluff.reader.FluffyConfigReader._
+import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.FluffType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 

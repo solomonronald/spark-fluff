@@ -1,4 +1,4 @@
-package com.solomonronald.spark.fluff
+package com.solomonronald.spark.fluff.ops
 
 import org.junit.Assert._
 import org.junit._
