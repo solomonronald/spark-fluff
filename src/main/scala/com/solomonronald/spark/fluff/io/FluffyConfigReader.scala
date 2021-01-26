@@ -1,4 +1,4 @@
-package com.solomonronald.spark.fluff.reader
+package com.solomonronald.spark.fluff.io
 
 import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.FluffType
@@ -19,7 +19,7 @@ object FluffyConfigReader {
    */
   private val FUNCTIONS_SCHEMA = StructType(List(
     StructField(META_COL_FUNCTION_NAME, StringType, nullable = false),
-    StructField(META_COL_FUNCTION_EXPR, StringType, nullable = false),
+    StructField(META_COL_FUNCTION_EXPR, StringType, nullable = false)
   ))
 
   /**
