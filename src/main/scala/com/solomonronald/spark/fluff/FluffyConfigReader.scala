@@ -51,12 +51,8 @@ object FluffyConfigReader {
   }
 
   def collectAllFunctionsAsMap(dataFrame: DataFrame*): Map[String, FluffType] = {
-    dataFrame.map(df => {
-      df.select(META_COL_FUNCTION_NAME, META_COL_FUNCTION_EXPR)
-        .where(not(col(META_COL_FUNCTION_EXPR).startsWith("$")))
-    }).reduce(_ union _)
-      .collect()
-      .map(r => new FluffyFunction(r(0).asInstanceOf[String], r(1).asInstanceOf[String]).asMap)
+    collectAllFunctions(dataFrame :_*)
+      .map(f => f.asMap)
       .toMap
   }
 

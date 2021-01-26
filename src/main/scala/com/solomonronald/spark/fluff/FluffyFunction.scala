@@ -3,7 +3,9 @@ package com.solomonronald.spark.fluff
 import com.solomonronald.spark.fluff.types._
 
 class FluffyFunction(val name: String, val function: FluffType) {
-  def this(name: String, functionExpr: String) = this(name, FluffyFunction.convertFromExpr(functionExpr))
+  def this(name: String, functionExpr: String) = {
+    this(name, FluffyFunction.convertFromExpr(functionExpr))
+  }
 
   def asMap: (String, FluffType) = {
     (name, function)
@@ -24,7 +26,7 @@ object FluffyFunction {
       case RangeFluff.NAME_ID => RangeFluff.parse(expr)
       case UuidFluff.NAME_ID => new UuidFluff
       case ConstFluff.NAME_ID => ConstFluff.parse(expr)
-      case _ => new RangeFluff()
+      case _ => new ConstFluff("Undefined")
     }
   }
 }

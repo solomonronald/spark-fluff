@@ -1,4 +1,4 @@
-package com.solomonronald.spark
+package com.solomonronald.spark.fluff
 
 import org.apache.spark.sql.SparkSession
 
@@ -6,7 +6,7 @@ trait SharedSparkContext {
   lazy val spark: SparkSession = {
     SparkSession
       .builder()
-      .appName("Fluff Test")
+      .appName("FluffTest")
       .master("local[*]")
       .getOrCreate()
   }

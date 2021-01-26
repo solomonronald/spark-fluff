@@ -13,6 +13,6 @@ class FluffyColumn(val index: Int,
   }
 
   override def toString: String = {
-    s"FluffyColumn($index, $columnName, $functionName)"
+    s"FluffyColumn(i: $index, name: $columnName, type: $columnType, function: $functionName)"
   }
 }

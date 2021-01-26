@@ -1,6 +1,6 @@
 package com.solomonronald.spark.fluff
 
-import com.solomonronald.spark.fluff.types.{FluffType, RangeFluff}
+import com.solomonronald.spark.fluff.types.{ConstFluff, FluffType, RangeFluff}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.mllib.random.RandomRDDs._
 import org.apache.spark.sql.functions.col
@@ -27,13 +27,13 @@ object Generator {
     }
 
     val rdd = vectorRdd.map(v => v.toArray)
-    val rangeDist: FluffType = new RangeFluff()
+    val defaultFluff: FluffType = new ConstFluff("Undefined")
 
     val functionBroadcast: Broadcast[Map[String, FluffType]] = spark.sparkContext.broadcast(fluffyFunctions)
 
     val columnExpressions: Seq[Column] = columns.indices.map(i => {
       val c = columns(i)
-      c.resolve(col(DEFAULT_COL_NAME)(i), functionBroadcast.value.getOrElse(c.functionName, rangeDist))
+      c.resolve(col(DEFAULT_COL_NAME)(i), functionBroadcast.value.getOrElse(c.functionName, defaultFluff))
     })
 
     rdd.toDF(DEFAULT_COL_NAME).select(columnExpressions: _*)

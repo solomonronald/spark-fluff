@@ -1,0 +1,10 @@
+1|id|string|$vUid
+2|prob|string|$vRange1
+3|onOrOff|int|$vRange2
+4|item|string|$vArray1
+5|date|string|$vDate
+6|range100|double|$vRange100to100
+7|char|string|$vArray2
+8|const|string|$vConst
+9|col9|string|array(1,2,3)
+10|id2|string|$vUid

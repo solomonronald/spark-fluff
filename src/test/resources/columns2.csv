@@ -1,0 +1,4 @@
+1|id|string|uuid()
+2|prob|double|range(0,1,6)
+3|k|string|const(k)
+4|item|string|array(a,b,c)

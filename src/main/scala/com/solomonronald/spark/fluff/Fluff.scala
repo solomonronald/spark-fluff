@@ -1,8 +1,7 @@
-package com.solomonronald.spark
+package com.solomonronald.spark.fluff
 
 import com.solomonronald.spark.fluff.FluffyConfigReader._
 import com.solomonronald.spark.fluff.types.FluffType
-import com.solomonronald.spark.fluff.{FluffyColumn, FluffyFunction, Generator}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class Fluff(spark: SparkSession, val numPartitions: Int = 0, val seed: Long = 0) {
