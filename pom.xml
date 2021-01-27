@@ -9,6 +9,7 @@
     <description>Distributed Random Data Generator for Apache Spark</description>
     <url>https://github.com/solomonronald/spark-fluff</url>
     <inceptionYear>2021</inceptionYear>
+    <packaging>jar</packaging>
     <licenses>
         <license>
             <name>MIT License</name>
@@ -210,7 +211,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <skipAssembly>${assembly.skipAssembly}</skipAssembly>
                     <descriptorRefs>
-                        <descriptorRef>src</descriptorRef>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
                 <executions>
