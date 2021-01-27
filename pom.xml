@@ -33,6 +33,13 @@
         <connection>scm:git:git://github.com/solomonronald/spark-fluff.git</connection>
         <developerConnection>scm:git:git@github.com:/solomonronald/spark-fluff.git</developerConnection>
     </scm>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/solomonronald/spark-fluff</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <scala.majorVersion>2.11</scala.majorVersion>
