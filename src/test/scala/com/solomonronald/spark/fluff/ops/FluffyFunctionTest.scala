@@ -4,19 +4,17 @@ import com.solomonronald.spark.fluff.types.ConstFluff
 import com.solomonronald.spark.fluff.{Fluff, SharedSparkContext}
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
-import org.junit._
+import org.scalatest.FunSuite
 
-@Test
-class FluffyFunctionTest extends SharedSparkContext {
+class FluffyFunctionTest extends FunSuite with SharedSparkContext {
 
-  @Test
-  def testToString(): Unit = {
+  test("testToString") {
     val fluffyFunction: FluffyFunction = new FluffyFunction("f1", new ConstFluff("hello"))
     assertEquals("FluffyFunction{f1, constFluff(hello)}", fluffyFunction.toString)
   }
 
-  @Test
-  def testGenerateByManualInput(): Unit = {
+
+  test("testGenerateByManualInput") {
     val columnsInput = Array[FluffyColumn](
       new FluffyColumn(0, "col1", "string", "f1")
     )

@@ -5,13 +5,11 @@ import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.ConstFluff
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
-import org.junit._
+import org.scalatest.FunSuite
 
-@Test
-class FluffTest extends SharedSparkContext {
+class FluffTest extends FunSuite with SharedSparkContext {
 
-  @Test
-  def testGenerateByBothFiles(): Unit = {
+  test("testGenerateByBothFiles") {
     val columnsTestFile: String = getClass.getResource(FILE_COLUMNS_1_CSV).getPath
     val functionsTestFile: String = getClass.getResource(FILE_FUNCTIONS_1_CSV).getPath
 
@@ -21,8 +19,7 @@ class FluffTest extends SharedSparkContext {
     assertEquals(5, df.count())
   }
 
-  @Test
-  def testGenerateByColumnFile(): Unit = {
+  test("testGenerateByColumnFile") {
     val columnsTestFile: String = getClass.getResource(FILE_COLUMNS_2_CSV).getPath
 
     val df: DataFrame = Fluff(spark)
@@ -32,8 +29,7 @@ class FluffTest extends SharedSparkContext {
   }
 
 
-  @Test
-  def testGenerateByManualInput(): Unit = {
+  test("testGenerateByManualInput") {
     val columnsInput = Array[FluffyColumn](
       new FluffyColumn(0, "col1", "string", "f1")
     )
@@ -50,8 +46,7 @@ class FluffTest extends SharedSparkContext {
     assertEquals(1, df.distinct().count())
   }
 
-  @Test
-  def testGenerateByManualInput2(): Unit = {
+  test("testGenerateByManualInput2") {
     val columnsInput = Array[FluffyColumn](
       new FluffyColumn(0, "col1", "string", "f1")
     )

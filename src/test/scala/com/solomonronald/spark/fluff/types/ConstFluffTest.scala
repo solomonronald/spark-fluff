@@ -1,12 +1,11 @@
 package com.solomonronald.spark.fluff.types
 
 import org.junit.Assert._
-import org.junit._
+import org.scalatest.FunSuite
 
-class ConstFluffTest {
+class ConstFluffTest extends FunSuite {
 
-  @Test
-  def testToString(): Unit = {
+  test("testToString") {
     val fluffType: FluffType = new ConstFluff("hello")
     assertEquals("constFluff(hello)", fluffType.toString)
   }

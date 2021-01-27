@@ -5,13 +5,11 @@ import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.{ConstFluff, FluffType}
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
-import org.junit._
+import org.scalatest.FunSuite
 
-@Test
-class GeneratorTest extends SharedSparkContext {
+class GeneratorTest extends FunSuite with SharedSparkContext {
 
-  @Test
-  def testGenerateByManualInput(): Unit = {
+  test("testGenerateByManualInput") {
     val columnsInput = Array[FluffyColumn](
       new FluffyColumn(0, "col1", "string", "f1")
     )
