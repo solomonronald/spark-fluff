@@ -18,7 +18,7 @@ class ListFluff(arr: Array[String], nullPercent: Int = DEFAULT_NULL_PERCENTAGE) 
     withNull(element_at(lit(arr), ((c * arr.length) + 1).cast(IntegerType)), n, nullPercent)
   }
 
-  override def toString: String = s"listFluff${arr.mkString("(", ", ", ")")}"
+  override def toString: String = s"listFluff(${arr.mkString("", ", ", "")}, null%: $nullPercent)"
 }
 
 object ListFluff extends FluffObjectType {

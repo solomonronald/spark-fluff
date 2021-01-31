@@ -29,7 +29,7 @@ class DateFluff(startDateStr: String,
     withNull(from_unixtime(timestamp, format), n, nullPercent)
   }
 
-  override def toString: String = s"dateFluff(start: $startDateStr, end: $endDateStr, format: $format)"
+  override def toString: String = s"dateFluff(start: $startDateStr, end: $endDateStr, format: $format, null%: $nullPercent)"
 
 }
 

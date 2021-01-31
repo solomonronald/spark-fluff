@@ -25,7 +25,7 @@ class RangeFluff(min: Double = 0.00,
     withNull(round((c * (max - min)) + min, precision), n, nullPercent)
   }
 
-  override def toString: String = s"rangeFluff(min: $min, max: $max, precision: $precision)"
+  override def toString: String = s"rangeFluff(min: $min, max: $max, precision: $precision, null%: $nullPercent)"
 
 }
 

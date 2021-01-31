@@ -7,7 +7,7 @@ class ConstFluffTest extends FunSuite {
 
   test("testToString") {
     val fluffType: FluffType = new ConstFluff("hello")
-    assertEquals("constFluff(hello)", fluffType.toString)
+    assertEquals("constFluff(hello, null%: 0)", fluffType.toString)
   }
 
 }

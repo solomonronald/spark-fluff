@@ -10,7 +10,7 @@ class FluffyFunctionTest extends FunSuite with SharedSparkContext {
 
   test("testToString") {
     val fluffyFunction: FluffyFunction = new FluffyFunction("f1", new ConstFluff("hello"))
-    assertEquals("FluffyFunction{f1, constFluff(hello)}", fluffyFunction.toString)
+    assertEquals("FluffyFunction{f1, constFluff(hello, null%: 0)}", fluffyFunction.toString)
   }
 
 

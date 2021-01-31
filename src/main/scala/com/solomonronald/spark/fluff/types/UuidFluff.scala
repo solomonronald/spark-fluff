@@ -16,7 +16,7 @@ class UuidFluff(nullPercent: Int = DEFAULT_NULL_PERCENTAGE) extends FluffType wi
     withNull(expr("uuid()"), n, nullPercent)
   }
 
-  override def toString: String = "uuidFluff()"
+  override def toString: String = s"uuidFluff(null%: $nullPercent)"
 
 }
 

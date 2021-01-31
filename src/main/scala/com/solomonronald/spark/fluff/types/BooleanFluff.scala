@@ -12,6 +12,8 @@ class BooleanFluff(nullPercent: Int = DEFAULT_NULL_PERCENTAGE) extends FluffType
   override def getColumn(c: Column, n: Column): Column = {
     listFluff.getColumn(c, n).cast(BooleanType)
   }
+
+  override def toString = s"booleanFluff(null%: $nullPercent)"
 }
 
 object BooleanFluff extends FluffObjectType {
@@ -19,7 +21,6 @@ object BooleanFluff extends FluffObjectType {
 
   def parse(expr: String): BooleanFluff = {
     val parsedResult = FunctionParser.parseInputParameters(expr)
-
     new BooleanFluff(parsedResult._2)
   }
 

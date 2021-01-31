@@ -1,12 +1,12 @@
 package com.solomonronald.spark.fluff.common
 
-import com.solomonronald.spark.fluff.common.Constants.UNDEFINED
+import com.solomonronald.spark.fluff.common.Constants.{DEFAULT_NULL_PERCENTAGE, UNDEFINED}
 
 object FunctionParser {
-  private final val FUNCTION_EXPR_PATTERN = "^\\w+\\(.*\\)*"
+  private val FUNCTION_EXPR_PATTERN = "^\\w+\\(.*\\)*"
 
   private def getNullPercentage(expr: String): Int = {
-    val defaultPercent: Int = 0
+    val defaultPercent: Int = DEFAULT_NULL_PERCENTAGE
     val defaultPercentString: String = s"[$defaultPercent%]"
 
     val pattern = "\\[(100|[1-9]?[0-9])\\%\\]$".r

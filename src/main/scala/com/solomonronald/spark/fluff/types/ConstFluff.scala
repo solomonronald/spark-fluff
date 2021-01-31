@@ -17,7 +17,7 @@ class ConstFluff(val const: String = UNDEFINED, val nullPercent: Int = DEFAULT_N
     withNull(lit(const), n, nullPercent)
   }
 
-  override def toString: String = s"constFluff($const)"
+  override def toString: String = s"constFluff($const, null%: $nullPercent)"
 }
 
 object ConstFluff extends FluffObjectType {
