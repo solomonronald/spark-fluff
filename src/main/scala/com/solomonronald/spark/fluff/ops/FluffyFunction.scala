@@ -41,6 +41,7 @@ object FluffyFunction {
       case ListFluff.NAME_ID => ListFluff.parse(expr, functionDelimiter)
       case DateFluff.NAME_ID => DateFluff.parse(expr, functionDelimiter)
       case RangeFluff.NAME_ID => RangeFluff.parse(expr, functionDelimiter)
+      case BooleanFluff.NAME_ID => BooleanFluff.parse(expr)
       case UuidFluff.NAME_ID => UuidFluff.parse(expr)
       case ConstFluff.NAME_ID => ConstFluff.parse(expr)
       // Default value is a [[ConstFluff]] of type undefined

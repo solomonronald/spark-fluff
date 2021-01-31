@@ -4,3 +4,4 @@ index,name,type,functionExpr
 3,Some_Constant,string,const(k)
 4,Random_Vowel,string,list(a|e|i|o|u)
 5,Random_Date,string,date(2000-01-01 00:00 | 2030-12-31 23:59 | yyyy-MM-dd HH:mm)
+6,Random_Bool,boolean,bool()
