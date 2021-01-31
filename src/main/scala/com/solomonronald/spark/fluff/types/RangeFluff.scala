@@ -1,6 +1,7 @@
 package com.solomonronald.spark.fluff.types
 
 import com.solomonronald.spark.fluff.common.FunctionParser
+import com.solomonronald.spark.fluff.common.UtilFunctions.withNull
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.round
 
@@ -15,8 +16,8 @@ class RangeFluff(min: Double = 0.00, max: Double = 1.00, precision: Int = 16, fi
   private val serialVersionUID = 7226067891252319122L
   override val needsRandomIid: Boolean = true
 
-  override def getColumn(c: Column): Column = {
-    round((c * (max - min)) + min, precision)
+  override def getColumn(c: Column, n: Column): Column = {
+    withNull(round((c * (max - min)) + min, precision), n, fillPercent)
   }
 
   override def toString: String = s"rangeFluff(min: $min, max: $max, precision: $precision)"

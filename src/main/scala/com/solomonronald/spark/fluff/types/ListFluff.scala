@@ -1,5 +1,6 @@
 package com.solomonronald.spark.fluff.types
 import com.solomonronald.spark.fluff.common.FunctionParser
+import com.solomonronald.spark.fluff.common.UtilFunctions.withNull
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{element_at, lit}
 import org.apache.spark.sql.types.IntegerType
@@ -12,8 +13,8 @@ class ListFluff(arr: Array[String], fillPercent: Int = 100) extends FluffType wi
   private val serialVersionUID = 8780477305547517901L
   override val needsRandomIid: Boolean = true
 
-  override def getColumn(c: Column): Column = {
-    element_at(lit(arr), ((c * arr.length) + 1).cast(IntegerType))
+  override def getColumn(c: Column, n: Column): Column = {
+    withNull(element_at(lit(arr), ((c * arr.length) + 1).cast(IntegerType)), n, fillPercent)
   }
 
   override def toString: String = s"listFluff${arr.mkString("(", ", ", ")")}"

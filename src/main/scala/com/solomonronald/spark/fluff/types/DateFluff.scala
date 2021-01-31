@@ -20,7 +20,7 @@ class DateFluff(startDateStr: String,
   private val serialVersionUID = 3192225079626485872L
   override val needsRandomIid: Boolean = true
 
-  override def getColumn(c: Column): Column = {
+  override def getColumn(c: Column, n: Column): Column = {
     val min = unix_timestamp(lit(startDateStr), format)
     val max = unix_timestamp(lit(endDateStr), format)
     val timestamp: Column = (c * (max - min)) + min

@@ -33,18 +33,20 @@ object Generator {
 
     import spark.implicits._
 
+    val vectorColumnsLength = columns.length * 2
+
     val vectorRdd = if (seed == 0) {
       // Generate random seed if input seed value is 0
-      uniformVectorRDD(spark.sparkContext, numRows, columns.length, numPartitions)
+      uniformVectorRDD(spark.sparkContext, numRows, vectorColumnsLength, numPartitions)
     } else {
       // Generate with input seed value
-      uniformVectorRDD(spark.sparkContext, numRows, columns.length, numPartitions, seed)
+      uniformVectorRDD(spark.sparkContext, numRows, vectorColumnsLength, numPartitions, seed)
     }
 
     val rdd = vectorRdd.map(v => v.toArray)
 
     // Default fluff value in case function not found in fluffyFunctions map
-    val defaultFluff: FluffType = new ConstFluff("Undefined")
+    val defaultFluff: FluffType = new ConstFluff()
 
     // Create a broadcast of fluffyFunctions
     val functionBroadcast: Broadcast[Map[String, FluffType]] = spark.sparkContext.broadcast(fluffyFunctions)
@@ -52,7 +54,8 @@ object Generator {
     // Resolve FluffyColumn with FluffType function
     val columnExpressions: Seq[Column] = columns.indices.map(i => {
       val c = columns(i)
-      c.resolve(col(DEFAULT_COL_NAME)(i), functionBroadcast.value.getOrElse(c.functionName, defaultFluff))
+      val colIndex: Int = i * 2
+      c.resolve(col(DEFAULT_COL_NAME)(colIndex), col(DEFAULT_COL_NAME)(colIndex + 1), functionBroadcast.value.getOrElse(c.functionName, defaultFluff))
     })
 
     // Convert resulting rdd to dataframe and return
