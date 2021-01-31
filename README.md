@@ -96,7 +96,7 @@ With columns csv file, you can also provide an extra functions csv file. This fu
 
 | functionName | functionExpr |
 | :--- | :--- |
-| myRange | range(0|100|2)[20%] |
+| myRange | range(0\|100\|2)[20%] |
 
 #### Example Columns CSV referring functions from Functions CSV
 
