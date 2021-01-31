@@ -1,4 +1,5 @@
 package com.solomonronald.spark.fluff.types
+import com.solomonronald.spark.fluff.common.FunctionParser
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.lit
 
@@ -6,7 +7,7 @@ import org.apache.spark.sql.functions.lit
  * [[FluffType]] Function to show constant value in all records of the column.
  * @param const constant value that will be shown in the column
  */
-class ConstFluff(val const: String) extends FluffType with Serializable{
+class ConstFluff(val const: String, val fillPercent: Int = 100) extends FluffType with Serializable{
   private val serialVersionUID = - 1374449853485783372L
   override val needsRandomIid: Boolean = false
 
@@ -18,7 +19,7 @@ class ConstFluff(val const: String) extends FluffType with Serializable{
 }
 
 object ConstFluff extends FluffObjectType {
-  override val NAME_ID: String = "cons"
+  override val NAME_ID: String = "const"
 
   /**
    * Parser for constant function expression
@@ -27,8 +28,9 @@ object ConstFluff extends FluffObjectType {
    */
   def parse(expr: String): ConstFluff = {
     // Get constant value inside string "const(...)"
-    val input: String = expr.substring(6, expr.length - 1).trim
+    val parsedResult = FunctionParser.parseInputParameters(expr)
+    val input: String = parsedResult._1.trim
 
-    new ConstFluff(input)
+    new ConstFluff(input, parsedResult._2)
   }
 }

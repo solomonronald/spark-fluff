@@ -1,5 +1,7 @@
 package com.solomonronald.spark.fluff.ops
 
+import com.solomonronald.spark.fluff.common.Constants.UNDEFINED
+import com.solomonronald.spark.fluff.common.FunctionParser
 import com.solomonronald.spark.fluff.types._
 
 /**
@@ -32,17 +34,17 @@ object FluffyFunction {
    * @return
    */
   private def convertFromExpr(expr: String, functionDelimiter: Char): FluffType = {
-    // The first 4 characters of the string is the unique NAME_ID of the function
-    val functionName: String = expr.substring(0, 4)
+
+    val functionName: String = FunctionParser.parseFunctionName(expr)
 
     functionName match {
-      case ArrayFluff.NAME_ID => ArrayFluff.parse(expr, functionDelimiter)
+      case ListFluff.NAME_ID => ListFluff.parse(expr, functionDelimiter)
       case DateFluff.NAME_ID => DateFluff.parse(expr, functionDelimiter)
       case RangeFluff.NAME_ID => RangeFluff.parse(expr, functionDelimiter)
       case UuidFluff.NAME_ID => new UuidFluff
       case ConstFluff.NAME_ID => ConstFluff.parse(expr)
       // Default value is a [[ConstFluff]] of type undefined
-      case _ => new ConstFluff("Undefined")
+      case _ => new ConstFluff(UNDEFINED)
     }
   }
 }

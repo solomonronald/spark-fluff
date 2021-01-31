@@ -1,4 +1,5 @@
 package com.solomonronald.spark.fluff.types
+import com.solomonronald.spark.fluff.common.FunctionParser
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{from_unixtime, lit, unix_timestamp}
 
@@ -11,7 +12,11 @@ import org.apache.spark.sql.functions.{from_unixtime, lit, unix_timestamp}
  * @param endDateStr End date. Exclusive
  * @param format Valid SimpleDateFormat string
  */
-class DateFluff(startDateStr: String, endDateStr: String, format: String) extends FluffType with Serializable {
+class DateFluff(startDateStr: String,
+                endDateStr: String,
+                format: String,
+                fillPercent: Int = 100
+               ) extends FluffType with Serializable {
   private val serialVersionUID = 3192225079626485872L
   override val needsRandomIid: Boolean = true
 
@@ -36,10 +41,11 @@ object DateFluff extends FluffObjectType{
    */
   def parse(expr: String, functionDelimiter: Char): DateFluff = {
     // Get date parameters from expr string "date(...)"
-    val input: Array[String] = expr.substring(5, expr.length - 1)
+    val parsedResult = FunctionParser.parseInputParameters(expr)
+    val input: Array[String] = parsedResult._1
       .split(functionDelimiter)
       .map(s => s.trim)
 
-    new DateFluff(input(0), input(1), input(2))
+    new DateFluff(input(0), input(1), input(2), parsedResult._2)
   }
 }

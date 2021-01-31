@@ -1,5 +1,6 @@
 package com.solomonronald.spark.fluff.types
 
+import com.solomonronald.spark.fluff.common.FunctionParser
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.round
 
@@ -10,7 +11,7 @@ import org.apache.spark.sql.functions.round
  * @param max max value. Exclusive.
  * @param precision number of decimal precision to return for the column
  */
-class RangeFluff(min: Double = 0.00, max: Double = 1.00, precision: Int = 16) extends FluffType with Serializable {
+class RangeFluff(min: Double = 0.00, max: Double = 1.00, precision: Int = 16, fillPercent: Int = 100) extends FluffType with Serializable {
   private val serialVersionUID = 7226067891252319122L
   override val needsRandomIid: Boolean = true
 
@@ -23,7 +24,7 @@ class RangeFluff(min: Double = 0.00, max: Double = 1.00, precision: Int = 16) ex
 }
 
 object RangeFluff extends FluffObjectType {
-  val NAME_ID: String = "rang"
+  val NAME_ID: String = "range"
 
   /**
    * Parser for range function expression
@@ -32,15 +33,16 @@ object RangeFluff extends FluffObjectType {
    */
   def parse(expr: String, functionDelimiter: Char): RangeFluff = {
     // Get range parameters from expr string "range(...)"
-    val input: Array[String] = expr.substring(6, expr.length - 1)
+    val parsedResult = FunctionParser.parseInputParameters(expr)
+    val input: Array[String] = parsedResult._1
       .split(functionDelimiter)
       .map(s => s.trim)
 
     // If range has only 2 parameters then set min and max value only, else set all values
     if (input.length > 2) {
-      new RangeFluff(input(0).toDouble, input(1).toDouble, input(2).toInt)
+      new RangeFluff(input(0).toDouble, input(1).toDouble, input(2).toInt, parsedResult._2)
     } else {
-      new RangeFluff(input(0).toDouble, input(1).toDouble)
+      new RangeFluff(input(0).toDouble, input(1).toDouble, fillPercent = parsedResult._2)
     }
   }
 }
