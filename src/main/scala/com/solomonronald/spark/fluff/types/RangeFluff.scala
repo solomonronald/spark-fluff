@@ -1,5 +1,6 @@
 package com.solomonronald.spark.fluff.types
 
+import com.solomonronald.spark.fluff.common.Constants.DEFAULT_NULL_PERCENTAGE
 import com.solomonronald.spark.fluff.common.FunctionParser
 import com.solomonronald.spark.fluff.common.UtilFunctions.withNull
 import org.apache.spark.sql.Column
@@ -12,12 +13,16 @@ import org.apache.spark.sql.functions.round
  * @param max max value. Exclusive.
  * @param precision number of decimal precision to return for the column
  */
-class RangeFluff(min: Double = 0.00, max: Double = 1.00, precision: Int = 16, fillPercent: Int = 100) extends FluffType with Serializable {
+class RangeFluff(min: Double = 0.00,
+                 max: Double = 1.00,
+                 precision: Int = 16,
+                 nullPercent: Int = DEFAULT_NULL_PERCENTAGE
+                ) extends FluffType with Serializable {
   private val serialVersionUID = 7226067891252319122L
   override val needsRandomIid: Boolean = true
 
   override def getColumn(c: Column, n: Column): Column = {
-    withNull(round((c * (max - min)) + min, precision), n, fillPercent)
+    withNull(round((c * (max - min)) + min, precision), n, nullPercent)
   }
 
   override def toString: String = s"rangeFluff(min: $min, max: $max, precision: $precision)"
@@ -43,7 +48,7 @@ object RangeFluff extends FluffObjectType {
     if (input.length > 2) {
       new RangeFluff(input(0).toDouble, input(1).toDouble, input(2).toInt, parsedResult._2)
     } else {
-      new RangeFluff(input(0).toDouble, input(1).toDouble, fillPercent = parsedResult._2)
+      new RangeFluff(input(0).toDouble, input(1).toDouble, nullPercent = parsedResult._2)
     }
   }
 }

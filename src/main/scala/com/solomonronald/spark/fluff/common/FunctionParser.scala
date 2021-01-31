@@ -5,8 +5,8 @@ import com.solomonronald.spark.fluff.common.Constants.UNDEFINED
 object FunctionParser {
   private final val FUNCTION_EXPR_PATTERN = "^\\w+\\(.*\\)*"
 
-  private def getFillPercentage(expr: String): Int = {
-    val defaultPercent: Int = 100
+  private def getNullPercentage(expr: String): Int = {
+    val defaultPercent: Int = 0
     val defaultPercentString: String = s"[$defaultPercent%]"
 
     val pattern = "\\[(100|[1-9]?[0-9])\\%\\]$".r
@@ -29,15 +29,15 @@ object FunctionParser {
   }
 
   def parseInputParameters(expr: String): (String, Int) = {
-    val fillPercentage = getFillPercentage(expr)
+    val nullPercentage = getNullPercentage(expr)
 
     if (isValidExpr(expr)) {
       val startingIndex = expr.indexOf('(')
       val endIndex = expr.lastIndexOf(')')
       val params = expr.substring(startingIndex + 1, endIndex)
-      (params, fillPercentage)
+      (params, nullPercentage)
     } else {
-      (UNDEFINED, fillPercentage)
+      (UNDEFINED, nullPercentage)
     }
   }
 }

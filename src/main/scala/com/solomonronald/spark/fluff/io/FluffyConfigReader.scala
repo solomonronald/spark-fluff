@@ -1,5 +1,6 @@
 package com.solomonronald.spark.fluff.io
 
+import com.solomonronald.spark.fluff.common.Constants._
 import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.FluffType
 import org.apache.spark.sql.functions._
@@ -7,11 +8,6 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 import org.apache.spark.sql.{Column, DataFrame, Row, SparkSession}
 
 object FluffyConfigReader {
-  private val META_COL_FUNCTION_EXPR = "functionExpr"
-  private val META_COL_FUNCTION_NAME = "functionName"
-  private val META_COL_TYPE = "type"
-  private val META_COL_NAME = "name"
-  private val META_COL_INDEX = "index"
 
   /**
    * Schema for functions data frame

@@ -1,5 +1,7 @@
 package com.solomonronald.spark.fluff.types
+import com.solomonronald.spark.fluff.common.Constants.DEFAULT_NULL_PERCENTAGE
 import com.solomonronald.spark.fluff.common.FunctionParser
+import com.solomonronald.spark.fluff.common.UtilFunctions.withNull
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{from_unixtime, lit, unix_timestamp}
 
@@ -15,7 +17,7 @@ import org.apache.spark.sql.functions.{from_unixtime, lit, unix_timestamp}
 class DateFluff(startDateStr: String,
                 endDateStr: String,
                 format: String,
-                fillPercent: Int = 100
+                nullPercent: Int = DEFAULT_NULL_PERCENTAGE
                ) extends FluffType with Serializable {
   private val serialVersionUID = 3192225079626485872L
   override val needsRandomIid: Boolean = true
@@ -24,7 +26,7 @@ class DateFluff(startDateStr: String,
     val min = unix_timestamp(lit(startDateStr), format)
     val max = unix_timestamp(lit(endDateStr), format)
     val timestamp: Column = (c * (max - min)) + min
-    from_unixtime(timestamp, format)
+    withNull(from_unixtime(timestamp, format), n, nullPercent)
   }
 
   override def toString: String = s"dateFluff(start: $startDateStr, end: $endDateStr, format: $format)"
