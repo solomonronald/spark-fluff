@@ -36,10 +36,6 @@ object RangeFluff extends FluffObjectType {
       .split(functionDelimiter)
       .map(s => s.trim)
 
-    println(expr)
-    println(functionDelimiter)
-    println(input.mkString("Array(", ", ", ")"))
-
     // If range has only 2 parameters then set min and max value only, else set all values
     if (input.length > 2) {
       new RangeFluff(input(0).toDouble, input(1).toDouble, input(2).toInt)
