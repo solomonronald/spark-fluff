@@ -39,6 +39,7 @@ object DateFluff extends FluffObjectType{
   /**
    * Parser for date function expression
    * @param expr date function expr
+   * @param functionDelimiter delimiter for function parameters
    * @return
    */
   def parse(expr: String, functionDelimiter: Char): DateFluff = {

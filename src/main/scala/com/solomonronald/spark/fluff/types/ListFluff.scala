@@ -27,6 +27,7 @@ object ListFluff extends FluffObjectType {
   /**
    * Parser for array function expression
    * @param expr array function expr
+   * @param functionDelimiter delimiter for function parameters
    * @return
    */
   def parse(expr: String, functionDelimiter: Char): ListFluff = {

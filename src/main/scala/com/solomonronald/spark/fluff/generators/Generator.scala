@@ -33,6 +33,7 @@ object Generator {
 
     import spark.implicits._
 
+    // x2 the column length, 1 for column value, 1 for null percentage
     val vectorColumnsLength = columns.length * 2
 
     val vectorRdd = if (seed == 0) {

@@ -35,6 +35,7 @@ object RangeFluff extends FluffObjectType {
   /**
    * Parser for range function expression
    * @param expr range function expr
+   * @param functionDelimiter delimiter for function parameters
    * @return
    */
   def parse(expr: String, functionDelimiter: Char): RangeFluff = {

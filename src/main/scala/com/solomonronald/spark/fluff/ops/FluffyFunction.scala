@@ -31,6 +31,7 @@ object FluffyFunction {
   /**
    * Match/Parse string function expr with respective [[FluffType]]
    * @param expr string function expr
+   * @param functionDelimiter delimiter for function expression parameters
    * @return
    */
   private def convertFromExpr(expr: String, functionDelimiter: Char): FluffType = {

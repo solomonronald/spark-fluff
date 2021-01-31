@@ -23,6 +23,11 @@ class UuidFluff(nullPercent: Int = DEFAULT_NULL_PERCENTAGE) extends FluffType wi
 object UuidFluff extends FluffObjectType {
   val NAME_ID: String = "uuid"
 
+  /**
+   * Parser for UUID function
+   * @param expr function expression
+   * @return
+   */
   def parse(expr: String): UuidFluff = {
     // Get percentage value for uuid()
     val parsedResult = FunctionParser.parseInputParameters(expr)

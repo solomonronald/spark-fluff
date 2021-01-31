@@ -19,6 +19,11 @@ class BooleanFluff(nullPercent: Int = DEFAULT_NULL_PERCENTAGE) extends FluffType
 object BooleanFluff extends FluffObjectType {
   override val NAME_ID: String = "bool"
 
+  /**
+   * Parser for Boolean Function
+   * @param expr function expression
+   * @return
+   */
   def parse(expr: String): BooleanFluff = {
     val parsedResult = FunctionParser.parseInputParameters(expr)
     new BooleanFluff(parsedResult._2)

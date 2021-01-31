@@ -40,6 +40,8 @@ object FluffyConfigReader {
    * Read functions csv file
    * @param spark SparkSession
    * @param filePath path for functions csv file
+   * @param hasHeader true if csv has header
+   * @param delimiter delimiter value for csv file
    * @return functions data frame
    */
   def readFunctions(spark: SparkSession, filePath: String, hasHeader: Boolean, delimiter: String): DataFrame = {
@@ -63,6 +65,8 @@ object FluffyConfigReader {
    * Read columns csv file
    * @param spark SparkSession
    * @param filePath path for columns csv file
+   * @param hasHeader true if csv has header
+   * @param delimiter delimiter value for csv file
    * @return columns data frame
    */
   def readColumns(spark: SparkSession, filePath: String, hasHeader: Boolean, delimiter: String): DataFrame = {
@@ -77,6 +81,7 @@ object FluffyConfigReader {
   /**
    * Select function name and function expr from an input of multiple data frames.
    * Converts function expr string to [[FluffType]] function.
+   * @param functionDelimiter delimiter for function expression parameters
    * @param dataFrame input data frames
    * @return
    */
@@ -91,6 +96,7 @@ object FluffyConfigReader {
 
   /**
    * Convert [[collectAllFunctions]] as map.
+   * @param functionDelimiter delimiter for function expression parameters
    * @param dataFrame input data frames
    * @return Map of function name and function of [[FluffType]]
    */
