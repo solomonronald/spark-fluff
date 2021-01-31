@@ -37,7 +37,7 @@ Create a csv file with the following content: ([Or use this csv file](./src/test
 |5|Random_Date|string|date(2000-01-01 00:00 \| 2030-12-31 23:59 \| yyyy-MM-dd HH:mm)
 |6|Random_Bool|boolean|bool()
 
-More Columns Details can be found [here](https://github.com/solomonronald/spark-fluff/wiki/Column-Details)
+More columns details can be found [here](https://github.com/solomonronald/spark-fluff/wiki/Column-Details).
 
 ### Step 3: Generate data with the following code
 
@@ -67,32 +67,50 @@ Following functions are available to generate data using _Fluff_
 
 | Function | Description |
 | :-- | :-- |
-|`uuid()` | Generates a random UUID. |
-|`range(min|max|precision)` | Generates values within a range [min, max) with specific precision. |
-|`list(value1|value2|...)` | Generates values from a list of `|` delimited items. |
-|`date(start|end|format)` | Generates date within a range [start, end) in specified format. |
-|`const(value)` | Generates a constant value for all rows. |
-|`bool()` | Generates `true` or `false` |
+| uuid() | Generates a random UUID. |
+| range(min\|max\|precision) | Generates values within a range [min, max) with specific precision. |
+| list(value1\|value2\|...) | Generates values from a list of `|` delimited items. |
+| date(start\|end\|format) | Generates date within a range [start, end) in specified format. |
+| const(value) | Generates a constant value for all rows. |
+| bool() | Generates `true` or `false`. |
 
-More details about Fluffy Functions can be found [here](https://github.com/solomonronald/spark-fluff/wiki/Fluffy-Functions)
+More details about Fluffy Functions can be found [here](https://github.com/solomonronald/spark-fluff/wiki/Fluffy-Functions).
 
 ### Null Values
 
-You can mention the percentage probability of the column having null values by adding `[nullPercentage%]` to the end of any function expression. The default is set as 0% null values.
+You can mention the percentage probability of the column having null values by adding `[nullPercentage%]` to the end of any function expression.
 
-For example if you want to set 10% null probability for uuid column, you can do as following in the csv file:
+For example if you want to set 10% of rows to null for uuid column, you can do as following in the csv file:
 
 ```csv
 1,UUID,string,uuid()[10%]
 ```
 
-Adding a null percentage to a function is optional and can be added to any function expression. Only integer values from 0 to 100 are accepted and default is 0 if not mentioned explicitly in a function expression.
+Adding a null percentage to a function is optional and can be added to any function expression. Only integer values from 0 to 100 are accepted and default is 0% if no value is mentioned explicitly.
+
+### Separate Functions CSV
+
+With columns csv file, you can also provide an extra functions csv file. This functions csv file can contain only your function expressions with function names. You can refer to the functions defined in functions csv file into your columns csv file using `$functionName`, so that you can reuse single function multiple times. Using a functions csv is encouraged to reduce memory usage.
+
+#### Example Functions CSV
+
+| functionName | functionExpr |
+| :--- | :--- |
+| myRange | range(0|100|2)[20%] |
+
+#### Example Columns CSV referring functions from Functions CSV
+
+|index|name|type|functionExpr|
+|:---|:---|:---|:---|
+|1|UUID|string|uuid()|
+|2|Random_Range1|string|$myRange|
+|3|Random_Range2|string|$myRange|
 
 ## Sample CSV Files
 
+- Sample Independent Columns CSV: [columns2.csv](./src/test/resources/columns2.csv), [columns3.csv](./src/test/resources/columns3.csv)
 - Sample Functions CSV: [functions1.csv](./src/test/resources/functions1.csv)
 - Sample Columns CSV: [columns1.csv](./src/test/resources/columns1.csv)
-- Sample Independent Columns CSV: [columns2.csv](./src/test/resources/columns2.csv), [columns3.csv](./src/test/resources/columns3.csv)
 
 ## Code Examples
 
