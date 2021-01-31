@@ -12,7 +12,6 @@ object FluffyConfigReader {
   private val META_COL_TYPE = "type"
   private val META_COL_NAME = "name"
   private val META_COL_INDEX = "index"
-  private val DELIMITER = "|"
 
   /**
    * Schema for functions data frame
@@ -47,9 +46,10 @@ object FluffyConfigReader {
    * @param filePath path for functions csv file
    * @return functions data frame
    */
-  def readFunctions(spark: SparkSession, filePath: String): DataFrame = {
+  def readFunctions(spark: SparkSession, filePath: String, hasHeader: Boolean, delimiter: String): DataFrame = {
     spark.read
-      .option("delimiter", DELIMITER)
+      .option("delimiter", delimiter)
+      .option("header", hasHeader)
       .schema(FUNCTIONS_SCHEMA)
       .csv(filePath)
   }
@@ -69,9 +69,10 @@ object FluffyConfigReader {
    * @param filePath path for columns csv file
    * @return columns data frame
    */
-  def readColumns(spark: SparkSession, filePath: String): DataFrame = {
+  def readColumns(spark: SparkSession, filePath: String, hasHeader: Boolean, delimiter: String): DataFrame = {
     spark.read
-      .option("delimiter", DELIMITER)
+      .option("delimiter", delimiter)
+      .option("header", hasHeader)
       .schema(COLUMNS_SCHEMA)
       .csv(filePath)
       .withColumn(META_COL_FUNCTION_NAME, functionNameCol)
@@ -83,13 +84,13 @@ object FluffyConfigReader {
    * @param dataFrame input data frames
    * @return
    */
-  def collectAllFunctions(dataFrame: DataFrame*): Array[FluffyFunction] = {
+  def collectAllFunctions(functionDelimiter: Char, dataFrame: DataFrame*): Array[FluffyFunction] = {
     dataFrame.map(df => {
       df.select(META_COL_FUNCTION_NAME, META_COL_FUNCTION_EXPR)
         .where(not(col(META_COL_FUNCTION_EXPR).startsWith("$")))
     }).reduce(_ union _)
       .collect()
-      .map(r => new FluffyFunction(r(0).asInstanceOf[String], r(1).asInstanceOf[String]))
+      .map(r => new FluffyFunction(r(0).asInstanceOf[String], r(1).asInstanceOf[String], functionDelimiter))
   }
 
   /**
@@ -97,8 +98,8 @@ object FluffyConfigReader {
    * @param dataFrame input data frames
    * @return Map of function name and function of [[FluffType]]
    */
-  def collectAllFunctionsAsMap(dataFrame: DataFrame*): Map[String, FluffType] = {
-    collectAllFunctions(dataFrame: _*)
+  def collectAllFunctionsAsMap(functionDelimiter: Char, dataFrame: DataFrame*): Map[String, FluffType] = {
+    collectAllFunctions(functionDelimiter, dataFrame: _*)
       .map(f => f.asMap)
       .toMap
   }

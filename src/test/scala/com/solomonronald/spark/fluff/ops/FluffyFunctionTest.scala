@@ -20,7 +20,7 @@ class FluffyFunctionTest extends FunSuite with SharedSparkContext {
     )
 
     val functionsInput = Array[FluffyFunction](
-      new FluffyFunction("f1", "xxxx(hello)")
+      new FluffyFunction("f1", "xxxx(hello)", ',')
     )
 
     val df: DataFrame = new Fluff(spark)

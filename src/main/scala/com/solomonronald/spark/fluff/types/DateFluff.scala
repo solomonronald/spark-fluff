@@ -34,10 +34,10 @@ object DateFluff extends FluffObjectType{
    * @param expr date function expr
    * @return
    */
-  def parse(expr: String): DateFluff = {
+  def parse(expr: String, functionDelimiter: Char): DateFluff = {
     // Get date parameters from expr string "date(...)"
     val input: Array[String] = expr.substring(5, expr.length - 1)
-      .split(",")
+      .split(functionDelimiter)
       .map(s => s.trim)
 
     new DateFluff(input(0), input(1), input(2))

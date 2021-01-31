@@ -26,10 +26,10 @@ object ArrayFluff extends FluffObjectType {
    * @param expr array function expr
    * @return
    */
-  def parse(expr: String): ArrayFluff = {
+  def parse(expr: String, functionDelimiter: Char): ArrayFluff = {
     // Substring ops array from 6th index of string "array(...)"
     val input: Array[String] = expr.substring(6, expr.length - 1)
-      .split(",")
+      .split(functionDelimiter)
       .map(s => s.trim)
       .map(s => if (s.isEmpty) null else s)
 

@@ -30,11 +30,15 @@ object RangeFluff extends FluffObjectType {
    * @param expr range function expr
    * @return
    */
-  def parse(expr: String): RangeFluff = {
+  def parse(expr: String, functionDelimiter: Char): RangeFluff = {
     // Get range parameters from expr string "range(...)"
     val input: Array[String] = expr.substring(6, expr.length - 1)
-      .split(",")
+      .split(functionDelimiter)
       .map(s => s.trim)
+
+    println(expr)
+    println(functionDelimiter)
+    println(input.mkString("Array(", ", ", ")"))
 
     // If range has only 2 parameters then set min and max value only, else set all values
     if (input.length > 2) {

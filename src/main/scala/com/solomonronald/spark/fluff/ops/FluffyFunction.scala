@@ -8,8 +8,8 @@ import com.solomonronald.spark.fluff.types._
  * @param function [[FluffType]] function
  */
 class FluffyFunction(val name: String, val function: FluffType) {
-  def this(name: String, functionExpr: String) = {
-    this(name, FluffyFunction.convertFromExpr(functionExpr))
+  def this(name: String, functionExpr: String, functionDelimiter: Char) = {
+    this(name, FluffyFunction.convertFromExpr(functionExpr, functionDelimiter))
   }
 
   /**
@@ -31,14 +31,14 @@ object FluffyFunction {
    * @param expr string function expr
    * @return
    */
-  private def convertFromExpr(expr: String): FluffType = {
+  private def convertFromExpr(expr: String, functionDelimiter: Char): FluffType = {
     // The first 4 characters of the string is the unique NAME_ID of the function
     val functionName: String = expr.substring(0, 4)
 
     functionName match {
-      case ArrayFluff.NAME_ID => ArrayFluff.parse(expr)
-      case DateFluff.NAME_ID => DateFluff.parse(expr)
-      case RangeFluff.NAME_ID => RangeFluff.parse(expr)
+      case ArrayFluff.NAME_ID => ArrayFluff.parse(expr, functionDelimiter)
+      case DateFluff.NAME_ID => DateFluff.parse(expr, functionDelimiter)
+      case RangeFluff.NAME_ID => RangeFluff.parse(expr, functionDelimiter)
       case UuidFluff.NAME_ID => new UuidFluff
       case ConstFluff.NAME_ID => ConstFluff.parse(expr)
       // Default value is a [[ConstFluff]] of type undefined
