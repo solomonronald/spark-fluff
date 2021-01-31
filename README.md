@@ -29,7 +29,7 @@ Create a csv file with the following content: ([Or use this csv file](./src/test
 |1|UUID|string|uuid()|
 |2|Random_Val|double|range(0\|1\|6)|
 |3|Some_Constant|string|const(k)|
-|4|Random_Vowel|string|array(a\|e\|i\|o\|u)|
+|4|Random_Vowel|string|list(a\|e\|i\|o\|u)|
 |5|Random_Date|string|date(2000-01-01 00:00 \| 2030-12-31 23:59 \| yyyy-MM-dd HH:mm)
 
 ### Step 3: Generate data with the following code
