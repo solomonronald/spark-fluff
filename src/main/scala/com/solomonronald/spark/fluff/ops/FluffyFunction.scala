@@ -10,6 +10,12 @@ import com.solomonronald.spark.fluff.types._
  * @param function [[FluffType]] function
  */
 class FluffyFunction(val name: String, val function: FluffType) {
+  /**
+   * Create FluffyFunction by parsing string/converting from user expression
+   * @param name function name
+   * @param functionExpr user provided function expression
+   * @param functionDelimiter function delimiter to separate function parameters
+   */
   def this(name: String, functionExpr: String, functionDelimiter: Char) = {
     this(name, FluffyFunction.convertFromExpr(functionExpr, functionDelimiter))
   }

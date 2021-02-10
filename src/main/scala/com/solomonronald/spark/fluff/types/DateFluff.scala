@@ -13,6 +13,7 @@ import org.apache.spark.sql.functions.{from_unixtime, lit, unix_timestamp}
  * @param startDateStr Starting date. Inclusive
  * @param endDateStr End date. Exclusive
  * @param format Valid SimpleDateFormat string
+ * @param nullPercent null probability percentage
  */
 class DateFluff(startDateStr: String,
                 endDateStr: String,
@@ -20,14 +21,36 @@ class DateFluff(startDateStr: String,
                 nullPercent: Int = DEFAULT_NULL_PERCENTAGE
                ) extends FluffType with Serializable {
   private val serialVersionUID = 3192225079626485872L
+
+  /**
+   * This fluff requires a random iid
+   */
   override val needsRandomIid: Boolean = true
 
-  override def getColumn(c: Column, n: Column): Column = {
+  /**
+   * Spark column expression to generate custom random column value.
+   * @param randomIid floating point random value column for output
+   * @param nullIid floating point random value column for null percentage
+   * @return column with custom random value resolved.
+   */
+  override def getColumn(randomIid: Column, nullIid: Column): Column = {
+    // Convert min time string to time value
     val min = unix_timestamp(lit(startDateStr), format)
+    // Convert max time string to time value
     val max = unix_timestamp(lit(endDateStr), format)
-    val timestamp: Column = (c * (max - min)) + min
-    withNull(from_unixtime(timestamp, format), n, nullPercent)
+    // Get random timestamp
+    val timestamp: Column = (randomIid * (max - min)) + min
+    // Convert time to required format
+    val columnExpr = from_unixtime(timestamp, format)
+    // Add null percentage
+    withNull(columnExpr, nullIid, nullPercent)
   }
+
+  /**
+   * Get the null percentage value of Fluff Type column
+   * @return null percentage
+   */
+  override def nullPercentage: Int = this.nullPercent
 
   override def toString: String = s"dateFluff(start: $startDateStr, end: $endDateStr, format: $format, null%: $nullPercent)"
 

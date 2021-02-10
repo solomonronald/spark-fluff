@@ -1,0 +1,15 @@
+index,name,type,functionExpr
+1,UUID,string,uuid()
+2,UUID20,string,uuid()[20%]
+3,Random_Val,double,range(0|1|6)
+4,Random_Val25,double,range(0|1|6)[25%]
+5,Random_Val100,double,range(0|1|6)[100%]
+6,Some_Constant0,string,const(k)[0%]
+7,Some_Constant60,string,const(k)[60%]
+8,Random_Vowel,string,list(a|e|i|o|u)
+9,Random_Vowel33,string,list(a|e|i|o|u)[33%]
+10,Random_Date,string,date(2000-01-01 00:00 | 2030-12-31 23:59 | yyyy-MM-dd HH:mm)
+11,Random_Date42,string,date(2000-01-01 00:00 | 2030-12-31 23:59 | yyyy-MM-dd HH:mm)[42%]
+12,Random_Bool70,boolean,bool()[70%]
+13,Random_Bool100,boolean,bool()[100%]
+14,Random_Bool,boolean,bool()

@@ -8,17 +8,37 @@ import org.apache.spark.sql.types.IntegerType
 
 /**
  * [[FluffType]] Function to pick an item at random from an array provided by the user.
- * @param arr parsed array of string from which the item will be selected
+ * @param itemList parsed array of string from which the item will be selected
+ * @param nullPercent null probability percentage
  */
-class ListFluff(arr: Array[String], nullPercent: Int = DEFAULT_NULL_PERCENTAGE) extends FluffType with Serializable {
+class ListFluff(itemList: Array[String], nullPercent: Int = DEFAULT_NULL_PERCENTAGE) extends FluffType with Serializable {
   private val serialVersionUID = 8780477305547517901L
+
+  /**
+   * This fluff requires a random iid
+   */
   override val needsRandomIid: Boolean = true
 
-  override def getColumn(c: Column, n: Column): Column = {
-    withNull(element_at(lit(arr), ((c * arr.length) + 1).cast(IntegerType)), n, nullPercent)
+  /**
+   * Spark column expression to generate custom random column value.
+   * @param randomIid floating point random value column for output
+   * @param nullIid floating point random value column for null percentage
+   * @return column with custom random value resolved.
+   */
+  override def getColumn(randomIid: Column, nullIid: Column): Column = {
+    // Select a value at random from input list
+    val columnExpr = element_at(lit(itemList), ((randomIid * itemList.length) + 1).cast(IntegerType))
+    // Add null percentage
+    withNull(columnExpr, nullIid, nullPercent)
   }
 
-  override def toString: String = s"listFluff(${arr.mkString("", ", ", "")}, null%: $nullPercent)"
+  /**
+   * Get the null percentage value of Fluff Type column
+   * @return null percentage
+   */
+  override def nullPercentage: Int = this.nullPercent
+
+  override def toString: String = s"listFluff(${itemList.mkString("", ", ", "")}, null%: $nullPercent)"
 }
 
 object ListFluff extends FluffObjectType {

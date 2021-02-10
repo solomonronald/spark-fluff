@@ -5,9 +5,13 @@ import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.ConstFluff
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
-import org.scalatest.FunSuite
+import org.scalatest.{FunSuite, BeforeAndAfterAll}
 
-class FluffTest extends FunSuite with SharedSparkContext {
+class FluffTest extends FunSuite with BeforeAndAfterAll with SharedSparkContext {
+
+  override def beforeAll() {
+    spark.sparkContext.setLogLevel("ERROR")
+  }
 
   test("testGenerateByBothFiles") {
     val columnsTestFile: String = getClass.getResource(FILE_COLUMNS_1_CSV).getPath
@@ -70,6 +74,14 @@ class FluffTest extends FunSuite with SharedSparkContext {
     val df4: DataFrame = Fluff(spark, 1, 1)
       .generate(columnsInput, functionsInput, 2)
     assertEquals("hello", df4.distinct().collectAsList().get(0)(0))
+  }
+
+  test("nullPercentage") {
+    val columnsTestFile: String = getClass.getResource(FILE_COLUMNS_4_CSV).getPath
+
+    val df: DataFrame = Fluff(spark).generate(columnsCsvPath = columnsTestFile, 5)
+
+    assertEquals(5, df.count())
   }
 
 

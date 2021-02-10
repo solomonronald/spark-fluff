@@ -5,9 +5,18 @@ import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.{ConstFluff, FluffType}
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
-import org.scalatest.FunSuite
+import org.scalatest.{BeforeAndAfterAll, FunSuite}
 
-class GeneratorTest extends FunSuite with SharedSparkContext {
+class GeneratorTest extends FunSuite with BeforeAndAfterAll with SharedSparkContext {
+
+  override def beforeAll() {
+    spark.sparkContext.setLogLevel("ERROR")
+  }
+
+  test("defaultFluff") {
+    val fluffType: FluffType = Generator.defaultFluff
+    assertEquals("constFluff(Undefined, null%: 0)", fluffType.toString)
+  }
 
   test("testGenerateByManualInput") {
     val columnsInput = Array[FluffyColumn](

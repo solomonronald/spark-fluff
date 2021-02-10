@@ -28,7 +28,12 @@ class FluffyColumn(val index: Int,
    * @return
    */
   def resolve(randomValueColumn: Column, nullValueColumn: Column, fluffType: FluffType): Column = {
-    fluffType.getColumn(c = randomValueColumn, n = nullValueColumn).cast(columnType).as(columnName)
+    // Get column implementation
+    fluffType.getColumn(randomIid = randomValueColumn, nullIid = nullValueColumn)
+      // Cast column to type provided by user
+      .cast(columnType)
+      // Rename column
+      .as(columnName)
   }
 
   override def toString: String = {
