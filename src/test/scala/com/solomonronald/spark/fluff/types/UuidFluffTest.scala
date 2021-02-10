@@ -7,6 +7,6 @@ class UuidFluffTest extends FunSuite {
 
   test("testToString") {
     val fluffType: FluffType = new UuidFluff()
-    assertEquals("uuidFluff()", fluffType.toString)
+    assertEquals("uuidFluff(null%: 0)", fluffType.toString)
   }
 }

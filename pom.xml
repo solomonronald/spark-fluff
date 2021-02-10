@@ -4,7 +4,7 @@
 
     <groupId>com.solomonronald.spark</groupId>
     <artifactId>spark-fluff</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>Spark Fluff</name>
     <description>Distributed Random Data Generator for Apache Spark</description>
     <url>https://github.com/solomonronald/spark-fluff</url>

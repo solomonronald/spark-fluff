@@ -1,5 +1,6 @@
 package com.solomonronald.spark.fluff.io
 
+import com.solomonronald.spark.fluff.common.Constants._
 import com.solomonronald.spark.fluff.ops.{FluffyColumn, FluffyFunction}
 import com.solomonronald.spark.fluff.types.FluffType
 import org.apache.spark.sql.functions._
@@ -7,12 +8,6 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 import org.apache.spark.sql.{Column, DataFrame, Row, SparkSession}
 
 object FluffyConfigReader {
-  private val META_COL_FUNCTION_EXPR = "functionExpr"
-  private val META_COL_FUNCTION_NAME = "functionName"
-  private val META_COL_TYPE = "type"
-  private val META_COL_NAME = "name"
-  private val META_COL_INDEX = "index"
-  private val DELIMITER = "|"
 
   /**
    * Schema for functions data frame
@@ -45,11 +40,14 @@ object FluffyConfigReader {
    * Read functions csv file
    * @param spark SparkSession
    * @param filePath path for functions csv file
+   * @param hasHeader true if csv has header
+   * @param delimiter delimiter value for csv file
    * @return functions data frame
    */
-  def readFunctions(spark: SparkSession, filePath: String): DataFrame = {
+  def readFunctions(spark: SparkSession, filePath: String, hasHeader: Boolean, delimiter: String): DataFrame = {
     spark.read
-      .option("delimiter", DELIMITER)
+      .option("delimiter", delimiter)
+      .option("header", hasHeader)
       .schema(FUNCTIONS_SCHEMA)
       .csv(filePath)
   }
@@ -67,11 +65,14 @@ object FluffyConfigReader {
    * Read columns csv file
    * @param spark SparkSession
    * @param filePath path for columns csv file
+   * @param hasHeader true if csv has header
+   * @param delimiter delimiter value for csv file
    * @return columns data frame
    */
-  def readColumns(spark: SparkSession, filePath: String): DataFrame = {
+  def readColumns(spark: SparkSession, filePath: String, hasHeader: Boolean, delimiter: String): DataFrame = {
     spark.read
-      .option("delimiter", DELIMITER)
+      .option("delimiter", delimiter)
+      .option("header", hasHeader)
       .schema(COLUMNS_SCHEMA)
       .csv(filePath)
       .withColumn(META_COL_FUNCTION_NAME, functionNameCol)
@@ -80,25 +81,27 @@ object FluffyConfigReader {
   /**
    * Select function name and function expr from an input of multiple data frames.
    * Converts function expr string to [[FluffType]] function.
+   * @param functionDelimiter delimiter for function expression parameters
    * @param dataFrame input data frames
    * @return
    */
-  def collectAllFunctions(dataFrame: DataFrame*): Array[FluffyFunction] = {
+  def collectAllFunctions(functionDelimiter: Char, dataFrame: DataFrame*): Array[FluffyFunction] = {
     dataFrame.map(df => {
       df.select(META_COL_FUNCTION_NAME, META_COL_FUNCTION_EXPR)
         .where(not(col(META_COL_FUNCTION_EXPR).startsWith("$")))
     }).reduce(_ union _)
       .collect()
-      .map(r => new FluffyFunction(r(0).asInstanceOf[String], r(1).asInstanceOf[String]))
+      .map(r => new FluffyFunction(r(0).asInstanceOf[String], r(1).asInstanceOf[String], functionDelimiter))
   }
 
   /**
    * Convert [[collectAllFunctions]] as map.
+   * @param functionDelimiter delimiter for function expression parameters
    * @param dataFrame input data frames
    * @return Map of function name and function of [[FluffType]]
    */
-  def collectAllFunctionsAsMap(dataFrame: DataFrame*): Map[String, FluffType] = {
-    collectAllFunctions(dataFrame: _*)
+  def collectAllFunctionsAsMap(functionDelimiter: Char, dataFrame: DataFrame*): Map[String, FluffType] = {
+    collectAllFunctions(functionDelimiter, dataFrame: _*)
       .map(f => f.asMap)
       .toMap
   }

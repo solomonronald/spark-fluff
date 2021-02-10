@@ -1,5 +1,7 @@
 package com.solomonronald.spark.fluff.ops
 
+import com.solomonronald.spark.fluff.common.Constants.UNDEFINED
+import com.solomonronald.spark.fluff.common.FunctionParser
 import com.solomonronald.spark.fluff.types._
 
 /**
@@ -8,8 +10,14 @@ import com.solomonronald.spark.fluff.types._
  * @param function [[FluffType]] function
  */
 class FluffyFunction(val name: String, val function: FluffType) {
-  def this(name: String, functionExpr: String) = {
-    this(name, FluffyFunction.convertFromExpr(functionExpr))
+  /**
+   * Create FluffyFunction by parsing string/converting from user expression
+   * @param name function name
+   * @param functionExpr user provided function expression
+   * @param functionDelimiter function delimiter to separate function parameters
+   */
+  def this(name: String, functionExpr: String, functionDelimiter: Char) = {
+    this(name, FluffyFunction.convertFromExpr(functionExpr, functionDelimiter))
   }
 
   /**
@@ -29,20 +37,22 @@ object FluffyFunction {
   /**
    * Match/Parse string function expr with respective [[FluffType]]
    * @param expr string function expr
+   * @param functionDelimiter delimiter for function expression parameters
    * @return
    */
-  private def convertFromExpr(expr: String): FluffType = {
-    // The first 4 characters of the string is the unique NAME_ID of the function
-    val functionName: String = expr.substring(0, 4)
+  private def convertFromExpr(expr: String, functionDelimiter: Char): FluffType = {
+
+    val functionName: String = FunctionParser.parseFunctionName(expr)
 
     functionName match {
-      case ArrayFluff.NAME_ID => ArrayFluff.parse(expr)
-      case DateFluff.NAME_ID => DateFluff.parse(expr)
-      case RangeFluff.NAME_ID => RangeFluff.parse(expr)
-      case UuidFluff.NAME_ID => new UuidFluff
+      case ListFluff.NAME_ID => ListFluff.parse(expr, functionDelimiter)
+      case DateFluff.NAME_ID => DateFluff.parse(expr, functionDelimiter)
+      case RangeFluff.NAME_ID => RangeFluff.parse(expr, functionDelimiter)
+      case BooleanFluff.NAME_ID => BooleanFluff.parse(expr)
+      case UuidFluff.NAME_ID => UuidFluff.parse(expr)
       case ConstFluff.NAME_ID => ConstFluff.parse(expr)
       // Default value is a [[ConstFluff]] of type undefined
-      case _ => new ConstFluff("Undefined")
+      case _ => new ConstFluff(UNDEFINED)
     }
   }
 }

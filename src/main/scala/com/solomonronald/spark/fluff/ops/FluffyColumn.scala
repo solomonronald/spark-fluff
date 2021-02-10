@@ -22,12 +22,18 @@ class FluffyColumn(val index: Int,
   /**
    * Return column with [[columnName]], with [[FluffType]] function of name [[functionName]] applied.
    * And cast to [[columnType]]
-   * @param randomValueColumn floating point random value
+   * @param randomValueColumn floating point random value for data output
+   * @param nullValueColumn floating point random value for null percentage
    * @param fluffType function
    * @return
    */
-  def resolve(randomValueColumn: Column, fluffType: FluffType): Column = {
-    fluffType.getColumn(randomValueColumn).cast(columnType).as(columnName)
+  def resolve(randomValueColumn: Column, nullValueColumn: Column, fluffType: FluffType): Column = {
+    // Get column implementation
+    fluffType.getColumn(randomIid = randomValueColumn, nullIid = nullValueColumn)
+      // Cast column to type provided by user
+      .cast(columnType)
+      // Rename column
+      .as(columnName)
   }
 
   override def toString: String = {

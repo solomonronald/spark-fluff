@@ -4,13 +4,17 @@ import com.solomonronald.spark.fluff.types.ConstFluff
 import com.solomonronald.spark.fluff.{Fluff, SharedSparkContext}
 import org.apache.spark.sql.DataFrame
 import org.junit.Assert._
-import org.scalatest.FunSuite
+import org.scalatest.{BeforeAndAfterAll, FunSuite}
 
-class FluffyFunctionTest extends FunSuite with SharedSparkContext {
+class FluffyFunctionTest extends FunSuite with BeforeAndAfterAll with SharedSparkContext {
+
+  override def beforeAll() {
+    spark.sparkContext.setLogLevel("ERROR")
+  }
 
   test("testToString") {
     val fluffyFunction: FluffyFunction = new FluffyFunction("f1", new ConstFluff("hello"))
-    assertEquals("FluffyFunction{f1, constFluff(hello)}", fluffyFunction.toString)
+    assertEquals("FluffyFunction{f1, constFluff(hello, null%: 0)}", fluffyFunction.toString)
   }
 
 
@@ -20,7 +24,7 @@ class FluffyFunctionTest extends FunSuite with SharedSparkContext {
     )
 
     val functionsInput = Array[FluffyFunction](
-      new FluffyFunction("f1", "xxxx(hello)")
+      new FluffyFunction("f1", "xxxx(hello)", ',')
     )
 
     val df: DataFrame = new Fluff(spark)
