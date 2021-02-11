@@ -4,7 +4,7 @@
 
     <groupId>com.solomonronald.spark</groupId>
     <artifactId>spark-fluff</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>Spark Fluff</name>
     <description>Distributed Random Data Generator for Apache Spark</description>
     <url>https://github.com/solomonronald/spark-fluff</url>
@@ -33,10 +33,11 @@
         <connection>scm:git:git://github.com/solomonronald/spark-fluff.git</connection>
         <developerConnection>scm:git:git@github.com:/solomonronald/spark-fluff.git</developerConnection>
     </scm>
+
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>GitHub Packages</name>
+            <name>GitHub OWNER Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/solomonronald/spark-fluff</url>
         </repository>
     </distributionManagement>
@@ -221,6 +222,20 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
