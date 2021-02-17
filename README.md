@@ -1,6 +1,6 @@
 # Spark Fluff
 
-_Spark Fluff_ is a distributed random data generation tool for [Apache Spark](https://spark.apache.org/). _Fluff_ can generate large amount of random data quickly and in a distributed way. Most common use case for _Fluff_ is to load test your big data applications.
+A distributed random data generation tool for [Apache Spark](https://spark.apache.org/). _Spark Fluff_ can generate large amount of random data quickly and in a distributed way.
 
 ## Overview
 
