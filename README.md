@@ -2,10 +2,6 @@
 
 _Spark Fluff_ is a distributed random data generation tool for [Apache Spark](https://spark.apache.org/). _Fluff_ can generate large amount of random data quickly and in a distributed way. Most common use case for _Fluff_ is to load test your big data applications.
 
-## Wiki
-
-Please visit [Spark Fluff Wiki](https://github.com/solomonronald/spark-fluff/wiki) for more details.
-
 ## Overview
 
 At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data. All you need to get started is a column definition of expected output. This column definition can be provided as a separate csv file so that you don't have to compile your code every time you want to generate different schema. _Fluff_ will then return a Spark `DataFrame` object which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
@@ -14,14 +10,10 @@ At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.
 
 ### Step 1: Add dependencies
 
-For __Maven__ projects add this to your `pom.xml`
+Create a jar by running and add it to your dependencies
 
-``` xml
-<dependency>
-    <groupId>com.solomonronald.spark</groupId>
-    <artifactId>spark-fluff</artifactId>
-    <version>1.0.1</version>
-</dependency>
+```cmd
+mvn clean install
 ```
 
 ### Step 2: Create a columns schema csv file
@@ -36,8 +28,6 @@ Create a csv file with the following content: ([Or use this csv file](./src/test
 |4|Random_Vowel|string|list(a\|e\|i\|o\|u)|
 |5|Random_Date|string|date(2000-01-01 00:00 \| 2030-12-31 23:59 \| yyyy-MM-dd HH:mm)
 |6|Random_Bool|boolean|bool()
-
-More columns details can be found [here](https://github.com/solomonronald/spark-fluff/wiki/Column-Details).
 
 ### Step 3: Generate data with the following code
 
@@ -59,8 +49,6 @@ And that's it! The above code will generate following random data:
 |2456e2cf-051e-455e-be9b-1de024be2439|0.915863|k|o|2023-11-07 14:03|false|
 |b5ba5820-f74c-496e-8451-e37ac5d0395c|0.597763|k|i|2007-05-02 21:03|true|
 
-More examples for _Fluff_ can be found here: [Spark Fluff Examples](https://github.com/solomonronald/spark-fluff-examples)
-
 ## Functions
 
 Following functions are available to generate data using _Fluff_
@@ -73,8 +61,6 @@ Following functions are available to generate data using _Fluff_
 | date(start\|end\|format) | Picks a date from range [start, end) in specified format. |
 | const(value) | Generates a constant value for all rows. |
 | bool() | Generates `true` or `false`. |
-
-More details about Fluffy Functions can be found [here](https://github.com/solomonronald/spark-fluff/wiki/Fluffy-Functions).
 
 ### Null Values
 
@@ -111,7 +97,3 @@ With columns csv file, you can also provide an extra functions csv file. This fu
 - Sample Independent Columns CSV: [columns2.csv](./src/test/resources/columns2.csv), [columns3.csv](./src/test/resources/columns3.csv)
 - Sample Functions CSV: [functions1.csv](./src/test/resources/functions1.csv)
 - Sample Columns CSV: [columns1.csv](./src/test/resources/columns1.csv)
-
-## Code Examples
-
-Example/Implementation of Spark Fluff can be found [here](https://github.com/solomonronald/spark-fluff-examples).
