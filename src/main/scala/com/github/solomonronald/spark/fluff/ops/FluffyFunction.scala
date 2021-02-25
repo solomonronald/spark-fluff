@@ -51,6 +51,7 @@ object FluffyFunction {
       case BooleanFluff.NAME_ID => BooleanFluff.parse(expr)
       case UuidFluff.NAME_ID => UuidFluff.parse(expr)
       case ConstFluff.NAME_ID => ConstFluff.parse(expr)
+      // Add new custom fluff type here ...
       // Default value is a [[ConstFluff]] of type undefined
       case _ => new ConstFluff(UNDEFINED)
     }
