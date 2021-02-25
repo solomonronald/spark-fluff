@@ -4,7 +4,7 @@ A distributed random data generation tool for [Apache Spark](https://spark.apach
 
 ## Overview
 
-At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data. All you need to get started is a column definition of expected output. The column definition can be provided as a separate csv file so that you don't have to compile your code every time you want to generate different schema. _Fluff_ returns a Spark `DataFrame` object containing your random data, which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
+At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data. All you need to get started is a column definition of expected output which can be provided as a separate csv file, so that you don't have to compile your code every time you want to generate different schema. _Fluff_ returns a Spark `DataFrame` object which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
 
 ## Usage
 
@@ -106,10 +106,10 @@ __Note:__ The null percentage is actually the probability of that record to have
 
 ## Separate Function Definition
 
-You can also provide an extra `functions.csv` file (containing your function definitions) along with the usual `columns.csv` file (containing your column definition).  
+You can also provide an extra `functions.csv` file (containing your function definitions) along with usual `columns.csv` file (containing your column definition).  
 This `functions.csv` file must contain function expressions with function names __only__. The functions defined in `functions.csv` can be now referred in `columns.csv` file using `$functionName`, so that a single function can be reused multiple times.
 
-__Note:__ Using a separate function definion file is __highly recommended__ in order to reduce memory pressure on your executors.
+__Note:__ Using a `functions.csv` is __highly recommended__ in order to reduce memory pressure on your executors.
 
 ### Example for using a separate `functions.csv`
 
@@ -130,8 +130,6 @@ Example `columns.csv` referring functions from `functions.csv`
 |1|UUID|string|uuid()|
 |2|Random_Range1|string|$myRange|
 |3|Random_Range2|string|$myRange|
-
-As shown above, the function `myRange` from `functions.csv` is referred in `columns.csv` using the expression `$myRange`.
 
 #### Step 3: Add the function definition file to your code
 
@@ -160,8 +158,6 @@ val fluffyDf: DataFrame = Fluff(spark).generate(
 // Show a sample
 fluffyDf.show(5)
 ```
-
-__Note:__ It is not mandatory to name your functions file `functions.csv` or your columns file as `columns.csv`, your file names can be anything as long as they follow the correct schema and are referred correctly in your `generate()` function call.
 
 ## Spark Fluff Examples
 
