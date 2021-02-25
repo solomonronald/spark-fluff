@@ -4,7 +4,8 @@ A distributed random data generation tool for [Apache Spark](https://spark.apach
 
 ## Overview
 
-At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data. All you need to get started is a column definition of expected output which can be provided as a separate csv file, so that you don't have to compile your code every time you want to generate different schema. _Fluff_ returns a Spark `DataFrame` object which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
+At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data.  
+All you need to get started is a column definition of expected output. The column definition can be provided as a separate csv file so that you don't have to compile your code every time you want to generate different schema. _Fluff_ returns a Spark `DataFrame` object containing your random data, which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
 
 ## Usage
 
