@@ -86,21 +86,21 @@ It has the following schema:
 |type|
 |functionExpr|
 
-### index
+#### index
 
 The output columns will be ordered based on this index. From the smallest index at first position to the biggest index at last position.
 
-### name
+#### name
 
 Name of the output column
 
-### type
+#### type
 
-The output column will be cast to this type.
+The output column will be cast to this type. You can use this column to convert your `double` values to `int` or `date` to `string`, etc.
 
-Supported columnType data types are: `string`, `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `decimal`, `date`, `timestamp`.
+Supported data types are: `string`, `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `decimal`, `date`, `timestamp`.
 
-### functionExpr
+#### functionExpr
 
 Valid function expression. A function expression is a [Fluff Function](./docs/fluff-functions.md) that is used to generate random data. This column can be a direct function expression, or a function referred from a [separate function file](#separate-function-definition) using `$` notation.
 
