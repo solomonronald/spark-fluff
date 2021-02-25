@@ -109,7 +109,7 @@ __Note:__ The null percentage is actually the probability of that record to have
 You can also provide an extra `functions.csv` file (containing your function definitions) along with the usual `columns.csv` file (containing your column definition).  
 This `functions.csv` file must contain function expressions with function names __only__. The functions defined in `functions.csv` can be now referred in `columns.csv` file using `$functionName`, so that a single function can be reused multiple times.
 
-__Note:__ Using a `functions.csv` is __highly recommended__ in order to reduce memory pressure on your executors.
+__Note:__ Using a separate function definion file is __highly recommended__ in order to reduce memory pressure on your executors.
 
 ### Example for using a separate `functions.csv`
 
