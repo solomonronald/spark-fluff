@@ -65,13 +65,45 @@ fluffyDf.show(5)
 
 And that's it! The above code will generate following random data:
 
-|UUID|Random_Val|Some_Constant|Random_Vowel|Random_Date|Random_Bool
+|UUID|Random_Val|Some_Constant|Random_Vowel|Random_Date|Random_Bool|
 |:---|:---|:---|:---|:---|:---|
 |85881d64-8bfe-490e-8ec2-83253d834f39|0.593161|k|u|2006-10-02 18:28|false|
 |6234b5a0-7c80-413c-87cc-69e71c10fca2|0.774724|k|u|2029-04-21 11:48|true|
 |31b1104d-4717-4d55-90a9-556bdffbacb5|0.40595|k|a|2006-10-22 18:49|true|
 |2456e2cf-051e-455e-be9b-1de024be2439|0.915863|k|o|2023-11-07 14:03|false|
 |b5ba5820-f74c-496e-8451-e37ac5d0395c|0.597763|k|i|2007-05-02 21:03|true|
+
+## Columns
+
+The columns CSV file contains the definition of the desired random data output we require.
+
+It has the following schema:
+
+|schema|
+|:---|
+|index|
+|name|
+|type|
+|functionExpr|
+
+### index
+
+The output columns will be ordered based on this index. From the smallest index at first position to the biggest index at last position.
+
+### name
+
+Name of the output column
+
+### type
+
+The output column will be cast to this type.
+
+Supported columnType data types are: `string`, `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `decimal`, `date`, `timestamp`.
+
+### functionExpr
+
+Valid function expression. A function expression is a [Fluff function](./docs/fluff-functions.md) that is used to generate random data. This column can be a direct function expression, or a function referred from a [separate function file](#separate-function-definition) using `$` notation.
+
 
 ## Functions
 
