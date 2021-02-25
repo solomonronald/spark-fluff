@@ -191,6 +191,41 @@ val fluffyDf: DataFrame = Fluff(spark).generate(
 fluffyDf.show(5)
 ```
 
+## Configuring Fluff
+
+Several _Fluff_ configurations like seed, number of files to be generated, etc. can be provided while generating random data.
+Following are the configurations available while creating a `Fluff` object.
+
+``` scala
+// Create fluffy DataFrame with custom configurations.
+val fluffyDf: DataFrame = Fluff(
+        // Spark Session
+        spark = spark,
+        // The number of partitions in the RDD. Set it proportional to your executors for parallelism.
+        // These are the number of files that will be generated. (5 in this example)
+        numPartitions = 5,
+        // Seed for the RNG that generates the seed for the generator in each partition.
+        seed = 1234123412341234L,
+        // Set this to false if your input csv files (columns.csv and functions.csv) does not contain column header.
+        hasHeader = true,
+        // If your input csv files are not comma separated, you can change the delimiter here.
+        // The file delimiter should be a string
+        fileDelimiter = ",",
+        // Delimiter for function expression (functionExpr) to separate parameters.
+        // The function delimiter should be a char
+        functionDelimiter = '|'
+      )
+      // Call generate
+      .generate(
+        // Input path for columns definition
+        columnsCsvPath = inputColumnsCsvPath,
+        // Input path for function definition. (Optional if you are not referring function using $ notation)
+        functionsCsvPath = inputFunctionsCsvPath,
+        // Total number of rows that you want in your output
+        numRows = 100
+      )
+```
+
 ## Spark Fluff Examples
 
 Examples for _Spark Fluff_ can be found [here](https://github.com/solomonronald/spark-fluff-examples).
