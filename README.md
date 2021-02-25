@@ -77,14 +77,14 @@ And that's it! The above code will generate following random data:
 
 Following functions are available to generate data using _Fluff_
 
-| Function | Description |
-| :-- | :-- |
-| uuid() | Generates a random UUID. |
-| range(min\|max\|precision) | Picks a value from range [min, max) with specific precision. |
-| list(value1\|value2\|...) | Picks a value from a list of "\|" delimited items. |
-| date(start\|end\|format) | Picks a date from range [start, end) in specified format. |
-| const(value) | Generates a constant value for all rows. |
-| bool() | Generates `true` or `false`. |
+| Function Name | Usage | Description |
+| :-- | :-- | :-- |
+| [UUID](./docs/fluff-functions.md#UUID) | `uuid()` | Generates a random UUID. |
+| [Range](./docs/fluff-functions.md#Range) | `range(min\|max\|precision)` | Picks a value from range [min, max) with specific precision. |
+| [List](./docs/fluff-functions.md#List) | `list(value1\|value2\|...)` | Picks a value from a list of "\|" delimited items. |
+| [Date](./docs/fluff-functions.md#Date) | `date(start\|end\|format)` | Picks a date from range [start, end) in specified format. |
+| [Constant](./docs/fluff-functions.md#Constant) | `const(value)` | Generates a constant value for all rows. |
+| [Boolean](./docs/fluff-functions.md#Boolean) | `bool()` | Generates `true` or `false`. |
 
 More details about Fluff Functions can be found [here](./docs/fluff-functions.md).
 
