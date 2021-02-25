@@ -42,8 +42,8 @@ Create a csv file with the following content: ([Or use this csv file](./src/test
 |2|Random_Val|double|range(0\|1\|6)|
 |3|Some_Constant|string|const(k)|
 |4|Random_Vowel|string|list(a\|e\|i\|o\|u)|
-|5|Random_Date|string|date(2000-01-01 00:00 \| 2030-12-31 23:59 \| yyyy-MM-dd HH:mm)
-|6|Random_Bool|boolean|bool()
+|5|Random_Date|string|date(2000-01-01 00:00 \| 2030-12-31 23:59 \| yyyy-MM-dd HH:mm)|
+|6|Random_Bool|boolean|bool()|
 
 ### Step 3: Generate data with the following code
 
@@ -65,7 +65,7 @@ fluffyDf.show(5)
 
 And that's it! The above code will generate following random data:
 
-|UUID|Random_Val|Some_Constant|Random_Vowel|Random_Date|Random_Bool
+|UUID|Random_Val|Some_Constant|Random_Vowel|Random_Date|Random_Bool|
 |:---|:---|:---|:---|:---|:---|
 |85881d64-8bfe-490e-8ec2-83253d834f39|0.593161|k|u|2006-10-02 18:28|false|
 |6234b5a0-7c80-413c-87cc-69e71c10fca2|0.774724|k|u|2029-04-21 11:48|true|
@@ -73,18 +73,50 @@ And that's it! The above code will generate following random data:
 |2456e2cf-051e-455e-be9b-1de024be2439|0.915863|k|o|2023-11-07 14:03|false|
 |b5ba5820-f74c-496e-8451-e37ac5d0395c|0.597763|k|i|2007-05-02 21:03|true|
 
+## Columns
+
+The columns CSV file contains the definition of the desired random data output we require.
+
+It has the following schema:
+
+|schema|
+|:---|
+|index|
+|name|
+|type|
+|functionExpr|
+
+### index
+
+The output columns will be ordered based on this index. From the smallest index at first position to the biggest index at last position.
+
+### name
+
+Name of the output column
+
+### type
+
+The output column will be cast to this type.
+
+Supported columnType data types are: `string`, `boolean`, `byte`, `short`, `int`, `long`, `float`, `double`, `decimal`, `date`, `timestamp`.
+
+### functionExpr
+
+Valid function expression. A function expression is a [Fluff Function](./docs/fluff-functions.md) that is used to generate random data. This column can be a direct function expression, or a function referred from a [separate function file](#separate-function-definition) using `$` notation.
+
+
 ## Functions
 
 Following functions are available to generate data using _Fluff_
 
-| Function | Description |
-| :-- | :-- |
-| uuid() | Generates a random UUID. |
-| range(min\|max\|precision) | Picks a value from range [min, max) with specific precision. |
-| list(value1\|value2\|...) | Picks a value from a list of "\|" delimited items. |
-| date(start\|end\|format) | Picks a date from range [start, end) in specified format. |
-| const(value) | Generates a constant value for all rows. |
-| bool() | Generates `true` or `false`. |
+| Function Name | Usage | Description |
+| :-- | :-- | :-- |
+| [UUID](./docs/fluff-functions.md#UUID) | `uuid()` | Generates a random UUID. |
+| [Range](./docs/fluff-functions.md#Range) | `range(min\|max\|precision)` | Picks a value from range [min, max) with specific precision. |
+| [List](./docs/fluff-functions.md#List) | `list(value1\|value2\|...)` | Picks a value from a list of "\|" delimited items. |
+| [Date](./docs/fluff-functions.md#Date) | `date(start\|end\|format)` | Picks a date from range [start, end) in specified format. |
+| [Constant](./docs/fluff-functions.md#Constant) | `const(value)` | Generates a constant value for all rows. |
+| [Boolean](./docs/fluff-functions.md#Boolean) | `bool()` | Generates `true` or `false`. |
 
 More details about Fluff Functions can be found [here](./docs/fluff-functions.md).
 
@@ -157,6 +189,41 @@ val fluffyDf: DataFrame = Fluff(spark).generate(
     
 // Show a sample
 fluffyDf.show(5)
+```
+
+## Configuring Fluff
+
+Several _Fluff_ configurations like seed, number of files to be generated, etc. can be provided while generating random data.
+Following are the configurations available while creating a `Fluff` object.
+
+``` scala
+// Create fluffy DataFrame with custom configurations.
+val fluffyDf: DataFrame = Fluff(
+        // Spark Session
+        spark = spark,
+        // The number of partitions in the RDD. Set it proportional to your executors for parallelism.
+        // These are the number of files that will be generated. (5 in this example)
+        numPartitions = 5,
+        // Seed for the RNG that generates the seed for the generator in each partition.
+        seed = 1234123412341234L,
+        // Set this to false if your input csv files (columns.csv and functions.csv) does not contain column header.
+        hasHeader = true,
+        // If your input csv files are not comma separated, you can change the delimiter here.
+        // The file delimiter should be a string
+        fileDelimiter = ",",
+        // Delimiter for function expression (functionExpr) to separate parameters.
+        // The function delimiter should be a char
+        functionDelimiter = '|'
+      )
+      // Call generate
+      .generate(
+        // Input path for columns definition
+        columnsCsvPath = inputColumnsCsvPath,
+        // Input path for function definition. (Optional if you are not referring function using $ notation)
+        functionsCsvPath = inputFunctionsCsvPath,
+        // Total number of rows that you want in your output
+        numRows = 100
+      )
 ```
 
 ## Spark Fluff Examples
