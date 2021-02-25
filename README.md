@@ -106,7 +106,7 @@ __Note:__ The null percentage is actually the probability of that record to have
 
 ## Separate Function Definition
 
-You can also provide an extra `functions.csv` file (containing your function definitions) along with usual `columns.csv` file (containing your column definition).  
+You can also provide an extra `functions.csv` file (containing your function definitions) along with the usual `columns.csv` file (containing your column definition).  
 This `functions.csv` file must contain function expressions with function names __only__. The functions defined in `functions.csv` can be now referred in `columns.csv` file using `$functionName`, so that a single function can be reused multiple times.
 
 __Note:__ Using a `functions.csv` is __highly recommended__ in order to reduce memory pressure on your executors.
@@ -130,6 +130,8 @@ Example `columns.csv` referring functions from `functions.csv`
 |1|UUID|string|uuid()|
 |2|Random_Range1|string|$myRange|
 |3|Random_Range2|string|$myRange|
+
+As shown above, the function `myRange` from `functions.csv` is referred in `columns.csv` using the expression `$myRange`.
 
 #### Step 3: Add the function definition file to your code
 
@@ -158,6 +160,8 @@ val fluffyDf: DataFrame = Fluff(spark).generate(
 // Show a sample
 fluffyDf.show(5)
 ```
+
+__Note:__ It is not mandatory to name your functions file `functions.csv` or your columns file as `columns.csv`, your file names can be anything as long as they follow the correct schema and are referred correctly in your `generate()` function call.
 
 ## Spark Fluff Examples
 
