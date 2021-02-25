@@ -102,7 +102,7 @@ Supported columnType data types are: `string`, `boolean`, `byte`, `short`, `int`
 
 ### functionExpr
 
-Valid function expression. A function expression is a [Fluff function](./docs/fluff-functions.md) that is used to generate random data. This column can be a direct function expression, or a function referred from a [separate function file](#separate-function-definition) using `$` notation.
+Valid function expression. A function expression is a [Fluff Function](./docs/fluff-functions.md) that is used to generate random data. This column can be a direct function expression, or a function referred from a [separate function file](#separate-function-definition) using `$` notation.
 
 
 ## Functions
