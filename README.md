@@ -4,16 +4,32 @@ A distributed random data generation tool for [Apache Spark](https://spark.apach
 
 ## Overview
 
-At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data. All you need to get started is a column definition of expected output. This column definition can be provided as a separate csv file so that you don't have to compile your code every time you want to generate different schema. _Fluff_ will then return a Spark `DataFrame` object which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
+At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) to generate random data. All you need to get started is a column definition of expected output. Column definition can be provided as a separate csv file so that you don't have to compile your code every time you want to generate different schema. _Fluff_ returns a Spark `DataFrame` object which you can manipulate further or just write it directly to file system as a csv, parquet, etc.
 
 ## Usage
 
 ### Step 1: Add dependencies
 
-Create a jar by running and add it to your dependencies
+The artifact is available on [Maven Central](https://mvnrepository.com/artifact/com.github.solomonronald/spark-fluff) and can be used in your build tools.
 
-```cmd
-mvn clean install
+#### Maven Dependencies
+
+For __Maven__ projects add this to your `pom.xml`
+
+``` xml
+<dependency>
+    <groupId>com.github.solomonronald</groupId>
+    <artifactId>spark-fluff</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+#### SBT Dependencies
+
+For __SBT__ projects add this to your `build.sbt`
+
+``` scala
+libraryDependencies += "com.github.solomonronald" % "spark-fluff" % "1.0.0"
 ```
 
 ### Step 2: Create a columns schema csv file
@@ -32,6 +48,14 @@ Create a csv file with the following content: ([Or use this csv file](./src/test
 ### Step 3: Generate data with the following code
 
 ``` scala
+// Import Fluff
+import com.github.solomonronald.spark.fluff.Fluff
+
+// ... get/create a Spark Session in sparkSession ...
+
+// Your input columns CSV File path
+val yourInputCsvFilePath: String = "<your path to>/<file name>.csv"
+
 // Create fluffy DataFrame with data defined in csv files
 val fluffyDf: DataFrame = Fluff(sparkSession).generate(yourInputCsvFilePath, numRows = 100)
     
@@ -62,7 +86,11 @@ Following functions are available to generate data using _Fluff_
 | const(value) | Generates a constant value for all rows. |
 | bool() | Generates `true` or `false`. |
 
-### Null Values
+More details about Fluff Functions can be found [here](./docs/fluff-functions.md).
+
+You can also create your own custom functions by following these [instructions](./docs/create-function.md).
+
+## Null Values
 
 You can mention the percentage probability of the column having null values by adding `[nullPercentage%]` to the end of any function expression.
 
@@ -74,17 +102,28 @@ For example if you want to set 10% of rows to null for uuid column, you can do a
 
 Adding a null percentage to a function is optional and can be added to any function expression. Only integer values from 0 to 100 are accepted and default is 0% if no value is mentioned explicitly.
 
-### Separate Functions CSV
+__Note:__ The null percentage is actually the probability of that record to have null value.
 
-With columns csv file, you can also provide an extra functions csv file. This functions csv file can contain only your function expressions with function names. You can refer to the functions defined in functions csv file into your columns csv file using `$functionName`, so that you can reuse single function multiple times. Using a functions csv is encouraged to reduce memory usage.
+## Separate Function Definition
 
-#### Example Functions CSV
+You can also provide an extra `functions.csv` file (containing your function definitions) along with usual `columns.csv` file (containing your column definition).  
+This `functions.csv` file must contain function expressions with function names __only__. The functions defined in `functions.csv` can be now referred in `columns.csv` file using `$functionName`, so that a single function can be reused multiple times.
+
+__Note:__ Using a `functions.csv` is __highly recommended__ in order to reduce memory pressure on your executors.
+
+### Example for using a separate `functions.csv`
+
+#### Step 1: Create a csv file with following function definition
+
+Example `functions.csv`
 
 | functionName | functionExpr |
 | :--- | :--- |
 | myRange | range(0\|100\|2)[20%] |
 
-#### Example Columns CSV referring functions from Functions CSV
+#### Step 2: Refer the functions defined in the above file in your columns definition csv file
+
+Example `columns.csv` referring functions from `functions.csv`
 
 |index|name|type|functionExpr|
 |:---|:---|:---|:---|
@@ -92,8 +131,40 @@ With columns csv file, you can also provide an extra functions csv file. This fu
 |2|Random_Range1|string|$myRange|
 |3|Random_Range2|string|$myRange|
 
+#### Step 3: Add the function definition file to your code
+
+``` scala
+// Import Fluff
+import com.github.solomonronald.spark.fluff.Fluff
+
+// ... get/create a Spark Session in sparkSession ...
+
+// Your input columns CSV File path
+val inputColumnsCsvFilePath: String = "<your path to>/columns.csv"
+
+// Your input functions CSV file path
+val inputFunctionsCsvFilePath: String = "<your path to>/functions.csv"
+
+// Create fluffy DataFrame with data defined in csv files
+val fluffyDf: DataFrame = Fluff(spark).generate(
+    // Set columns csv path
+    columnsCsvPath = inputColumnsCsvFilePath,
+    // Set functions csv path
+    functionsCsvPath = inputFunctionsCsvFilePath,
+    // Set number of rows to be generated
+    numRows = 100
+)
+    
+// Show a sample
+fluffyDf.show(5)
+```
+
+## Spark Fluff Examples
+
+Examples for _Spark Fluff_ can be found [here](https://github.com/solomonronald/spark-fluff-examples).
+
 ## Sample CSV Files
 
 - Sample Independent Columns CSV: [columns2.csv](./src/test/resources/columns2.csv), [columns3.csv](./src/test/resources/columns3.csv)
 - Sample Functions CSV: [functions1.csv](./src/test/resources/functions1.csv)
-- Sample Columns CSV: [columns1.csv](./src/test/resources/columns1.csv)
+- Sample Columns CSV (dependent on function csv): [columns1.csv](./src/test/resources/columns1.csv)
