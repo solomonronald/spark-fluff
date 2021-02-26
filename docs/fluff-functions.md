@@ -1,4 +1,4 @@
-# Fluffy Functions
+# Fluff Functions
 
 Fluff Functions is how _Spark Fluff_ converts the i.i.d's provided by [Spark MLlib's RandomRDDs](https://spark.apache.org/docs/3.0.0-preview/api/scala/org/apache/spark/mllib/random/RandomRDDs$.html) into required random data.
 
