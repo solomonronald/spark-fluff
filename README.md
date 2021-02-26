@@ -132,7 +132,7 @@ For example if you want to set 10% of rows to null for uuid column, you can do a
 1,UUID,string,uuid()[10%]
 ```
 
-Adding a null percentage to a function is optional and can be added to any function expression. Only integer values from 0 to 100 are accepted and default is 0% if no value is mentioned explicitly.
+Adding a null percentage to a function is optional and can be added to any function expression. __Only integer values from 0 to 100 are accepted__ and default is 0% if no value is mentioned explicitly.
 
 __Note:__ The null percentage is actually the probability of that record to have null value.
 
