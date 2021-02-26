@@ -10,7 +10,7 @@ At it's core _Spark Fluff_ uses [Spark MLlib's RandomRDDs](https://spark.apache.
 
 ### Step 1: Add dependencies
 
-The artifact is available on [Maven Central](https://mvnrepository.com/artifact/com.github.solomonronald/spark-fluff) and can be used in your build tools.
+The artifact is available on [Maven Central](https://mvnrepository.com/artifact/com.github.solomonronald/spark-fluff) and can be used with your build tools.
 
 #### Maven Dependencies
 
